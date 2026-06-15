@@ -61,16 +61,15 @@ directory)
 
 ### Steps to Reproduce
 
-1. Navigate to the discussions section in the MISP web interface
-2. Observe that there is no warning about discussions not being shared
-3. A user unfamiliar with MISP's architecture would have no way of knowing 
-this limitation
+1. Navigate to any event in the MISP web interface
+2. Scroll down to the Discussion section
+3. Observe that there is no warning about discussions being instance-local
+4. A user would have no indication that their posts are not visible to peers on other connected MISP instances
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [To be added in Phase II]
-- **Screenshots/logs:** [To be added in Phase II]
-- **My findings:** [To be added in Phase II]
+Branch: https://github.com/shreyakula/MISP/tree/fix-issue-3181
+Commit: https://github.com/shreyakula/MISP/commit/64518b736
 
 ---
 
@@ -95,8 +94,13 @@ Using UMPIRE framework (adapted):
 instance-local. Users need to be informed of this limitation directly 
 in the interface.
 
-**Match:** [To be filled after reading how existing warnings/alerts are 
-displayed elsewhere in the MISP UI]
+**Match:** MISP uses Bootstrap-based alert divs elsewhere in the UI (alert alert-info) for informational notices. 
+This same pattern is used across other views in the codebase.
+
+1. Located the relevant template: app/View/Elements/eventdiscussion.ctp
+2. Added a Bootstrap alert div directly below the Discussion heading
+3. Used the __() translation wrapper so the message is localizable
+4. Used alert-info class to match MISP's existing informational notice style
 
 **Plan:**
 1. Set up local MISP environment
@@ -104,6 +108,7 @@ displayed elsewhere in the MISP UI]
 3. Identify how existing alerts/warnings are styled in the codebase
 4. Add a warning message consistent with MISP's UI patterns
 5. Verify the warning appears correctly in the discussions interface
+
 
 **Implement:** [Branch/commit links to be added as I work]
 
